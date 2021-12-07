@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2021-11-20--01--init-db-schema.xml" author="WebWelle3232">
+
+        <createTable tableName="dtp">
+            <column name="id" type="UUID" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="region" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="town" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="district" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+       <createTable tableName="dtp_driver">
+            <column name="id" type="UUID" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="dtp_id" type="uuid">
+                <constraints foreignKeyName="fk_dtp_id" nullable="false" references="dtp(id)"/>
+            </column>
+            <column name="driver_license" type="VARCHAR(9)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="punishment" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="penalty" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>
+

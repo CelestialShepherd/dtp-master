@@ -119,6 +119,8 @@ public class DtpOperationsService {
         LocalDate localDateTo = LocalDateTime.ofInstant(calendarTo.toInstant(), calendarTo.getTimeZone().toZoneId()).toLocalDate();
         List<DtpDto> ListFiltered = getDtpByPeriod(localDateFrom, localDateTo, ListDtpDto);
         ListFiltered = ListFiltered.stream().filter(DtpDto -> (DtpDto.getPunishment().equals(PunishmentClass.PENALTY) || DtpDto.getPunishment().equals(PunishmentClass.LICENSE_DEPRIVATION) || DtpDto.getPunishment().equals(PunishmentClass.ARRESTING))).collect(Collectors.toList());
+        ListFiltered = ListFiltered.stream().s
+
         return (double) ListFiltered.size() / 12;
     }
 

@@ -7,29 +7,20 @@
 
     <changeSet id="2021-11-20--01--init-db-schema.xml" author="WebWelle3232">
 
-        <createTable tableName="dtp">
+        <createTable tableName="location">
             <column name="id" type="UUID" defaultValueComputed="${uuid_function}">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="region" type="VARCHAR(200)">
+            <column name="region" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="town" type="VARCHAR(200)">
+            <column name="town" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="district" type="VARCHAR(200)">
+            <column name="district" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="street" type="VARCHAR(200)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="location" type="VARCHAR(200)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="date_time" type="timestamp">
-                <constraints nullable="false"/>
-            </column>
-            <column name="active" type="BOOL">
+            <column name="street" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamp">
@@ -40,21 +31,24 @@
             </column>
         </createTable>
 
-       <createTable tableName="dtp_driver">
+        <createTable tableName="dtp">
             <column name="id" type="UUID" defaultValueComputed="${uuid_function}">
                 <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="dtp_id" type="uuid">
-                <constraints foreignKeyName="fk_dtp_id" nullable="false" references="dtp(id)"/>
             </column>
             <column name="driver_license" type="VARCHAR(9)">
                 <constraints nullable="false"/>
             </column>
+            <column name="location_id" type="uuid">
+                <constraints foreignKeyName="fk_location_id" nullable="false" references="location(id)"/>
+            </column>
             <column name="punishment" type="VARCHAR">
                 <constraints nullable="false"/>
             </column>
-            <column name="penalty" type="VARCHAR">
-                <constraints nullable="false"/>
+            <column name="penalty" type="FLOAT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="period" type="int8">
+                <constraints nullable="true"/>
             </column>
             <column name="created_at" type="timestamp">
                 <constraints nullable="false"/>

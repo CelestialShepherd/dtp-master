@@ -1,6 +1,5 @@
-package com.example.dtp.Repository;
+package com.example.dtp.repository;
 
-import com.example.dtp.entity.DtpEntity;
 import com.example.dtp.entity.LocationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

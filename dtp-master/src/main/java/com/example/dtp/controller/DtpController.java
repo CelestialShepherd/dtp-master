@@ -19,22 +19,20 @@ public class DtpController {
     private final DtpOperationsService dtpOperationsService;
 
     @GetMapping("/all")
-    public List<DtpDto> getAllRTAs() {
+    public List<DtpDto> getAllDtps() {
         return dtpOperationsService.getAllDtp(); }
 
     @GetMapping("/{id}")
-    public DtpDto getRTAById(@PathVariable("id") UUID id) {
+    public DtpDto getDtpById(@PathVariable("id") UUID id) {
         return dtpOperationsService.getDtpById(id); }
 
-    @GetMapping("/mid_dtp_month/{year}")
-    public double getMidCountDtpByMonth(@RequestBody LocationDto locationDto, @PathVariable("year") Integer year) {
-        return dtpOperationsService.getMidCountDtoByMonth(year, dtpOperationsService.getDtpByLocation(locationDto)); }
+    @GetMapping("/month_mid_dtp/{year}")
+    public double getMonthMidCountDtpByYear(@PathVariable("year") Integer year) {
+        return dtpOperationsService.getMonthMidCountDtoByYear(year); }
 
     @GetMapping("/punishment_stat")
-    public String getMidCountRTAByMonth(@RequestBody LocationDto locationDto) {
-        return dtpOperationsService.getPunishmentStatistics(dtpOperationsService.getDtpByLocation(locationDto)); }
-
-        //TODO: Переписать под DtpDto
+    public String getPunismentStatistics(@RequestBody LocationDto locationDto) {
+        return dtpOperationsService.getPunishmentStatistics(locationDto); }
 
     @PostMapping("/create")
     public DtpDto createDtp(@RequestBody DtpDto dto) {

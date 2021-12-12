@@ -21,5 +21,5 @@ public class DtpEntity extends BaseEntity {
         private Boolean active;
         private PunishmentClass punishment;
         private Double penalty;
-        private Double period;
+        private Integer period;
 }

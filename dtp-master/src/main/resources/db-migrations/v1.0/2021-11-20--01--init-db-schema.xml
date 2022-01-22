@@ -44,10 +44,10 @@
             <column name="punishment" type="VARCHAR">
                 <constraints nullable="false"/>
             </column>
-            <column name="penalty" type="FLOAT">
+            <column name="penalty" type="float">
                 <constraints nullable="true"/>
             </column>
-            <column name="period" type="int8">
+            <column name="period" type="int">
                 <constraints nullable="true"/>
             </column>
             <column name="created_at" type="timestamp">

@@ -19,6 +19,6 @@ public class LocationEntity extends BaseEntity{
     private String district;
     private String street;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = false)
-    @JoinColumn(name = "rtas_id")
+    @JoinColumn(name = "dtps_id")
     private List<DtpEntity> Dtps;
 }

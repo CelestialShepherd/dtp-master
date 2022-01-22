@@ -1,14 +1,18 @@
 package com.example.dtp.service;
 
+import com.example.dtp.connector.DriverConnector;
+import com.example.dtp.dto.DriverDto;
 import com.example.dtp.repository.DtpRepository;
 import com.example.dtp.dto.DtpDto;
 import com.example.dtp.dto.LocationDto;
 import com.example.dtp.entity.DtpEntity;
 import com.example.dtp.enums.PunishmentClass;
 import com.example.dtp.mapper.DtpMapper;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 public class DtpOperationsService {
     private final DtpRepository repository;
     private final DtpMapper mapper;
+    private final DriverConnector connector;
 
     public List<DtpDto> getAllDtp() {
         return mapper.toDtpDtoList(repository.findAll());
@@ -28,48 +33,64 @@ public class DtpOperationsService {
         return mapper.toDtpDto(getDtpEntityById(id));
     }
 
+    @Transactional
     public DtpDto createDtp(DtpDto dto) {
         DtpEntity createdDtp = repository.save(mapper.toDtpEntity(dto));
         DtpDto dtpDto = mapper.toDtpDto(createdDtp);
         return dtpDto;
     }
 
+    @Transactional
     public DtpDto updateDtp(UUID id, DtpDto dto) {
         DtpEntity dtp = getDtpEntityById(id);
         DtpEntity dtpUpdated = mapper.updateFromDto(dto, dtp);
         DtpEntity dtpUpdatedPersisted = repository.save(dtpUpdated);
-        DtpDto dtpUpdatedDto = mapper.toDtpDto(dtpUpdatedPersisted);
-        return dtpUpdatedDto;
+        return mapper.toDtpDto(dtpUpdatedPersisted);
     }
 
+    @Transactional
     public DtpDto setPunishment(UUID id, String punishment) {
         DtpEntity dtp = getDtpEntityById(id);
+        DriverDto driverDto = connector.getDriverLicense(dtp.getDriverLicense());
         dtp.setPunishment(PunishmentClass.convert(punishment));
         DtpEntity dtpSetPersisted = repository.save(dtp);
-        DtpDto dtpSetDto = mapper.toDtpDto(dtpSetPersisted);
-        return dtpSetDto;
+        log.info("driver {} punisment set {}", driverDto, punishment);
+        return mapper.toDtpDto(dtpSetPersisted);
     }
 
+    @Transactional
     public DtpDto setPenalty(UUID id, Double penalty) {
         DtpEntity dtp = getDtpEntityById(id);
-        DtpDto dtpSetDto = mapper.toDtpDto(dtp);
+        DriverDto driverDto = connector.getDriverLicense(dtp.getDriverLicense());
+
         if (dtp.getPunishment().equals(PunishmentClass.PENALTY)) {
             dtp.setPenalty(penalty);
             DtpEntity dtpSetPersisted = repository.save(dtp);
-            dtpSetDto = mapper.toDtpDto(dtpSetPersisted);
+            var dtpSetDto = mapper.toDtpDto(dtpSetPersisted);
+            log.info("driver {} punisment set {}", driverDto, dtp.getPunishment());
+            return dtpSetDto;
         }
-        return dtpSetDto;
+        else {
+            String format = String.format("punishmentclass for driver %s isn't PENALTY driver has punishmentclass %s", driverDto, dtp.getPunishment());
+            throw new RuntimeException(format);
+        }
+
     }
 
+    @Transactional
     public DtpDto setPeriod(UUID id, Double period) {
         DtpEntity dtp = getDtpEntityById(id);
-        DtpDto dtpSetDto = mapper.toDtpDto(dtp);
+        DriverDto driverDto = connector.getDriverLicense(dtp.getDriverLicense());
         if (dtp.getPunishment().equals(PunishmentClass.ARRESTING) || dtp.getPunishment().equals(PunishmentClass.LICENSE_DEPRIVATION)) {
             dtp.setPenalty(period);
             DtpEntity dtpSetPersisted = repository.save(dtp);
-            dtpSetDto = mapper.toDtpDto(dtpSetPersisted);
+            var dtpSetDto = mapper.toDtpDto(dtpSetPersisted);
+            return dtpSetDto;
         }
-        return dtpSetDto;
+        else {
+            String format = String.format("period isn't for driver %s driver has already had period %s", driverDto, period);
+            throw new RuntimeException(format);
+        }
     }
 
     public List<DtpDto> getDtpByLocation(LocationDto locationDto) {
@@ -81,7 +102,7 @@ public class DtpOperationsService {
         var district = locationDto.getDistrict();
         var street = locationDto.getStreet();
 
-       if (!town.isBlank()) {
+        if (!town.isBlank()) {
             dtpFiltered = dtpEntities.stream().filter(DtpEntity -> DtpEntity.getLocation().getTown().equals(town)).collect(Collectors.toList());
         } else if (!district.isBlank()) {
             dtpFiltered = dtpEntities.stream().filter(DtpEntity -> DtpEntity.getLocation().getDistrict().equals(district)).collect(Collectors.toList());
@@ -122,7 +143,7 @@ public class DtpOperationsService {
             punishmentStatistics.put(PunishmentClass.ARRESTING, 0);
         }
         for (DtpDto dtpDto : DtpDtoByLocation) {
-            switch (dtpDto.getPunishment()){
+            switch (dtpDto.getPunishment()) {
                 case INNOCENT:
                     punishmentStatistics.put(PunishmentClass.values()[1], punishmentStatistics.get(PunishmentClass.values()[1]) + 1);
                     break;
@@ -143,11 +164,9 @@ public class DtpOperationsService {
     }
 
     public DtpEntity getDtpEntityById(UUID id) {
-        Optional<DtpEntity> optionalDtp = repository.findById(id);
-        if (optionalDtp.isEmpty()) {
-            log.error("getDtpById.out - dtp with ID {} not found",id);
-            throw new RuntimeException(String.format("dtp with id %s not found",id));
-        }
-        return optionalDtp.get();
+        return repository.findById(id).orElseThrow(() -> {
+            log.error("getDtpById.out - dtp with ID {} not found", id);
+            throw new RuntimeException(String.format("dtp with id %s not found", id));
+        });
     }
 }

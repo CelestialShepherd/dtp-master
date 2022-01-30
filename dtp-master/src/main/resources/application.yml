@@ -10,3 +10,8 @@ spring:
     url: "jdbc:postgresql://localhost:5432/postgres?currentSchema=dtp"
     username: postgres
     password: 1234
+
+external:
+  driver-service:
+    host: localhost
+    port: 5432

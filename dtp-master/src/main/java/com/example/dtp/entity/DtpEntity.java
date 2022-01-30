@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "dtps")
+@Entity(name = "dtp")
 public class DtpEntity extends BaseEntity {
         private String driverLicense;
         @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="2021-11-20--01--init-db-schema.xml" author="WebWelle3232">
+    <changeSet id="2021-11-20--01--init-db-schema.xml" author="Celestial_Shepherd">
 
         <createTable tableName="location">
             <column name="id" type="UUID" defaultValueComputed="${uuid_function}">
@@ -41,13 +41,19 @@
             <column name="location_id" type="uuid">
                 <constraints foreignKeyName="fk_location_id" nullable="false" references="location(id)"/>
             </column>
-            <column name="punishment" type="VARCHAR">
+            <column name="time_of_dtp" type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column name="penalty" type="float">
+            <column name="active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="punishment" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="penalty" type="DOUBLE PRECISION">
                 <constraints nullable="true"/>
             </column>
-            <column name="period" type="int">
+            <column name="period" type="INT">
                 <constraints nullable="true"/>
             </column>
             <column name="created_at" type="timestamp">

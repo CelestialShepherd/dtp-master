@@ -17,18 +17,22 @@ import java.util.UUID;
 public class LocationController {
     private final LocationOperationsService LocationOperationsService;
 
+    //works
     @GetMapping("/all")
     public List<LocationDto> getAllLocations() {
         return LocationOperationsService.getAllLocations(); }
 
+    //works
     @GetMapping("/{id}")
     public LocationDto getLocationById(@PathVariable("id") UUID id) {
         return LocationOperationsService.getLocationById(id); }
 
+    //works
     @PostMapping("/create")
     public LocationDto createLocation(@RequestBody LocationDto dto) {
         return LocationOperationsService.createLocation(dto); }
 
+    //works
     @PutMapping("/update/{id}")
     public LocationDto updateLocation(@PathVariable("id") UUID id, @RequestBody LocationDto dto) {
         return LocationOperationsService.updateLocation(id, dto); }

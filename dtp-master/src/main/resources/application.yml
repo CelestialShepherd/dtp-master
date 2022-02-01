@@ -1,15 +1,15 @@
 server:
-  port: 8401
+  port: 8399
 
 spring:
   liquibase:
     change-log: "classpath:db-migrations/changelog.xml"
     user: postgres
-    password: 1234
+    password: webwelle32
   datasource:
     url: "jdbc:postgresql://localhost:5432/postgres?currentSchema=dtp"
     username: postgres
-    password: 1234
+    password: webwelle32
 
 external:
   driver-service:

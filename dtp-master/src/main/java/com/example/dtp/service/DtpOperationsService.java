@@ -2,6 +2,7 @@ package com.example.dtp.service;
 
 import com.example.dtp.connector.DriverConnector;
 import com.example.dtp.dto.DriverDto;
+import com.example.dtp.entity.LocationEntity;
 import com.example.dtp.repository.DtpRepository;
 import com.example.dtp.dto.DtpDto;
 import com.example.dtp.dto.LocationDto;
@@ -9,6 +10,7 @@ import com.example.dtp.entity.DtpEntity;
 import com.example.dtp.enums.PunishmentClass;
 import com.example.dtp.mapper.DtpMapper;
 
+import com.example.dtp.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DtpOperationsService {
     private final DtpRepository repository;
+    private final LocationRepository repositoryLoc;
     private final DtpMapper mapper;
     private final DriverConnector connector;
 
@@ -40,13 +43,13 @@ public class DtpOperationsService {
         return dtpDto;
     }
 
-    @Transactional
-    public DtpDto updateDtp(UUID id, DtpDto dto) {
-        DtpEntity dtp = getDtpEntityById(id);
-        DtpEntity dtpUpdated = mapper.updateFromDto(dto, dtp);
-        DtpEntity dtpUpdatedPersisted = repository.save(dtpUpdated);
-        return mapper.toDtpDto(dtpUpdatedPersisted);
-    }
+//    @Transactional
+//    public DtpDto updateDtp(UUID id, DtpDto dto) {
+//        DtpEntity dtp = getDtpEntityById(id);
+//        DtpEntity dtpUpdated = mapper.updateFromDto(dto, dtp);
+//        DtpEntity dtpUpdatedPersisted = repository.save(dtpUpdated);
+//        return mapper.toDtpDto(dtpUpdatedPersisted);
+//    }
 
     @Transactional
     public DtpDto setPunishment(UUID id, String punishment) {
@@ -93,14 +96,16 @@ public class DtpOperationsService {
         }
     }
 
-    public List<DtpDto> getDtpByLocation(LocationDto locationDto) {
+    public List<DtpDto> getDtpByLocation(UUID locationID) {
 
         List<DtpEntity> dtpEntities = repository.findAllNotNullLocation();
         List<DtpEntity> dtpFiltered = null;
 
-        var town = locationDto.getTown();
-        var district = locationDto.getDistrict();
-        var street = locationDto.getStreet();
+        LocationEntity location = repositoryLoc.getById(locationID);
+
+        var town = location.getTown();
+        var district = location.getDistrict();
+        var street = location.getStreet();
 
         if (!town.isBlank()) {
             dtpFiltered = dtpEntities.stream().filter(DtpEntity -> DtpEntity.getLocation().getTown().equals(town)).collect(Collectors.toList());
@@ -133,8 +138,8 @@ public class DtpOperationsService {
         return (double) dtpFiltered.size() / 12;
     }
 
-    public String getPunishmentStatistics(LocationDto location) {
-        List<DtpDto> DtpDtoByLocation = getDtpByLocation(location);
+    public String getPunishmentStatistics(UUID locationID) {
+        List<DtpDto> DtpDtoByLocation = getDtpByLocation(locationID);
         Map<PunishmentClass, Integer> punishmentStatistics = new HashMap<>();
         {
             punishmentStatistics.put(PunishmentClass.INNOCENT, 0);

@@ -18,30 +18,32 @@ import java.util.UUID;
 public class DtpController {
     private final DtpOperationsService dtpOperationsService;
 
+    //works
     @GetMapping("/all")
     public List<DtpDto> getAllDtps() {
         return dtpOperationsService.getAllDtp(); }
 
+    //works
     @GetMapping("/{id}")
     public DtpDto getDtpById(@PathVariable("id") UUID id) {
         return dtpOperationsService.getDtpById(id); }
 
+    //works
     @GetMapping("/month_mid_dtp/{year}")
     public double getMonthMidCountDtpByYear(@PathVariable("year") Integer year) {
         return dtpOperationsService.getMonthMidCountDtoByYear(year); }
 
-    @GetMapping("/punishment_stat")
-    public String getPunismentStatistics(@RequestBody LocationDto locationDto) {
-        return dtpOperationsService.getPunishmentStatistics(locationDto); }
+    //works
+    @GetMapping("/punishment_stat/{id}")
+    public String getPunismentStatistics(@PathVariable("id") UUID locationID) {
+        return dtpOperationsService.getPunishmentStatistics(locationID); }
 
+    //I don't understand the problem. Anthony, check it please.
     @PostMapping("/create")
     public DtpDto createDtp(@RequestBody DtpDto dto) {
         return dtpOperationsService.createDtp(dto); }
 
-    @PutMapping("/update/{id}")
-    public DtpDto updateDtp(@PathVariable("id") UUID id, @RequestBody DtpDto dto) {
-        return dtpOperationsService.updateDtp(id, dto); }
-
+    //All POSTs don't work and the reason is known. I'll fix it tomorrow.
     @PostMapping("/set/punishment/{id}")
     public DtpDto setPunishment(@PathVariable("id") UUID id, @RequestBody String punishment) {
         return dtpOperationsService.setPunishment(id, punishment); }
@@ -53,5 +55,9 @@ public class DtpController {
     @PostMapping("/set/period/{id}")
     public DtpDto setPeriod(@PathVariable("id") UUID id, @RequestBody Double period) {
         return dtpOperationsService.setPeriod(id, period); }
+
+//    @PutMapping("/update/{id}")
+//    public DtpDto updateDtp(@PathVariable("id") UUID id, @RequestBody DtpDto dto) {
+//        return dtpOperationsService.updateDtp(id, dto); }
 
 }

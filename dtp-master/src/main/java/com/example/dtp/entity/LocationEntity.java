@@ -12,13 +12,14 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "location")
+@Entity
+@Table(name = "location", schema = "dtp")
 public class LocationEntity extends BaseEntity{
     private String region;
     private String town;
     private String district;
     private String street;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = false)
     @JoinColumn(name = "location_id")
     private List<DtpEntity> Dtp;
 }

@@ -6,6 +6,7 @@ import com.example.dtp.entity.DtpEntity;
 import com.example.dtp.service.DtpOperationsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class DtpController {
     private final DtpOperationsService dtpOperationsService;
 
     @GetMapping("/all")
-    public List<DtpDto> getAllDtps() {
+    public List<DtpDto> getAllDtp() {
         return dtpOperationsService.getAllDtp(); }
 
     @GetMapping("/{id}")
@@ -30,14 +31,16 @@ public class DtpController {
     public double getMonthMidCountDtpByYear(@PathVariable("year") Integer year) {
         return dtpOperationsService.getMonthMidCountDtoByYear(year); }
 
+        // TODO: Исправить алгоритм сбора статистики. Возвращает нулевые данные
     @GetMapping("/punishment_stat")
-    public String getPunismentStatistics(@RequestBody LocationDto locationDto) {
+    public String getPunishmentStatistics(@RequestBody LocationDto locationDto) {
         return dtpOperationsService.getPunishmentStatistics(locationDto); }
 
     @PostMapping("/create")
     public DtpDto createDtp(@RequestBody DtpDto dto) {
         return dtpOperationsService.createDtp(dto); }
 
+        //Для проверки отработки в Postman необходимо во вкладке Body в выпадающем меню выбрать JSON вместо Text
     @PutMapping("/update/{id}")
     public DtpDto updateDtp(@PathVariable("id") UUID id, @RequestBody DtpDto dto) {
         return dtpOperationsService.updateDtp(id, dto); }

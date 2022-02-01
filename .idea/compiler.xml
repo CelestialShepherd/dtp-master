@@ -7,7 +7,15 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.3.1.Final/a5e2a807eee3372cbfba0685b70505d7c0b7ae9a/mapstruct-processor-1.3.1.Final.jar" />
+        </processorPath>
+        <module name="dtp.test" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.6.0/18e39c77550c9ed34c81e5f376629c4fcc7b4819/spring-boot-configuration-processor-2.6.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.22/9c08ea24c6eb714e2d6170e8122c069a0ba9aacf/lombok-1.18.22.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.3.1.Final/a5e2a807eee3372cbfba0685b70505d7c0b7ae9a/mapstruct-processor-1.3.1.Final.jar" />
         </processorPath>
         <module name="dtp.main" />
       </profile>

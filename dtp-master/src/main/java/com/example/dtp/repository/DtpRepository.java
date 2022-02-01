@@ -10,6 +10,7 @@ import java.util.UUID;
 
 @Repository
 public interface DtpRepository extends JpaRepository<DtpEntity, UUID> {
-    @Query(value = "SELECT * FROM dtp d WHERE d.location.region <> NULL", nativeQuery = true)
+    // TODO: Переписать запрос, чтобы была проведена проверка не является ли поле region в location пустым
+    @Query(value = "SELECT * FROM dtp d WHERE d.location_id <> NULL", nativeQuery = true)
     List<DtpEntity> findAllNotNullLocation();
 }

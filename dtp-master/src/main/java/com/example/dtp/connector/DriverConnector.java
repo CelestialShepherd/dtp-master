@@ -22,9 +22,11 @@ public class DriverConnector {
     private String driverServicePort;
 
     public DriverDto getDriverLicense(String license) {
-        var uri = UriComponentsBuilder.fromUriString(driverServiceHost)
+        var uri = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host(driverServiceHost)
                 .port(driverServicePort)
-                .path("drivers/license/{license}")
+                .path("driver/license/{license}")
                 .buildAndExpand(license)
                 .toUriString();
         log.info("requesting driver_service uri: {}", uri);

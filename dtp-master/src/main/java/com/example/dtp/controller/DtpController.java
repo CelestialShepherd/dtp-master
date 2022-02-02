@@ -48,7 +48,7 @@ public class DtpController {
     public DtpDto setPunishment(@PathVariable("id") UUID id, @RequestBody String punishment) {
         return dtpOperationsService.setPunishment(id, punishment); }
 
-    @PostMapping("/set/penalty/{id}")
+    @PutMapping("/set/penalty/{id}")
     public DtpDto setPenalty(@PathVariable("id") UUID id, @RequestBody Double penalty) {
         return dtpOperationsService.setPenalty(id, penalty); }
 

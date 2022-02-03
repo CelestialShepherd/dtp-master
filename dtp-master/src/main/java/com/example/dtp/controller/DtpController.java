@@ -31,7 +31,6 @@ public class DtpController {
     public double getMonthMidCountDtpByYear(@PathVariable("year") Integer year) {
         return dtpOperationsService.getMonthMidCountDtoByYear(year); }
 
-        // TODO: Исправить алгоритм сбора статистики. Возвращает нулевые данные
     @GetMapping("/punishment_stat")
     public String getPunishmentStatistics(@RequestBody LocationDto locationDto) {
         return dtpOperationsService.getPunishmentStatistics(locationDto); }
@@ -45,16 +44,16 @@ public class DtpController {
     public DtpDto updateDtp(@PathVariable("id") UUID id, @RequestBody DtpDto dto) {
         return dtpOperationsService.updateDtp(id, dto); }
 
-    @PostMapping("/set/punishment/{id}")
+    @PutMapping("/set/punishment/{id}")
     public DtpDto setPunishment(@PathVariable("id") UUID id, @RequestBody String punishment) {
         return dtpOperationsService.setPunishment(id, punishment); }
 
-    @PostMapping("/set/penalty/{id}")
+    @PutMapping("/set/penalty/{id}")
     public DtpDto setPenalty(@PathVariable("id") UUID id, @RequestBody Double penalty) {
         return dtpOperationsService.setPenalty(id, penalty); }
 
-    @PostMapping("/set/period/{id}")
-    public DtpDto setPeriod(@PathVariable("id") UUID id, @RequestBody Double period) {
+    @PutMapping("/set/period/{id}")
+    public DtpDto setPeriod(@PathVariable("id") UUID id, @RequestBody Integer period) {
         return dtpOperationsService.setPeriod(id, period); }
 
 }

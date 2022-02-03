@@ -78,11 +78,11 @@ public class DtpOperationsService {
     }
 
     @Transactional
-    public DtpDto setPeriod(UUID id, Double period) {
+    public DtpDto setPeriod(UUID id, Integer period) {
         DtpEntity dtp = getDtpEntityById(id);
         DriverDto driverDto = connector.getDriverLicense(dtp.getDriverLicense());
         if (dtp.getPunishment().equals(PunishmentClass.ARRESTING) || dtp.getPunishment().equals(PunishmentClass.LICENSE_DEPRIVATION)) {
-            dtp.setPenalty(period);
+            dtp.setPeriod(period);
             DtpEntity dtpSetPersisted = repository.save(dtp);
             var dtpSetDto = mapper.toDtpDto(dtpSetPersisted);
             return dtpSetDto;
@@ -98,11 +98,14 @@ public class DtpOperationsService {
         List<DtpEntity> dtpEntities = repository.findAllNotNullLocation();
         List<DtpEntity> dtpFiltered = null;
 
+        var region = locationDto.getRegion();
         var town = locationDto.getTown();
         var district = locationDto.getDistrict();
         var street = locationDto.getStreet();
 
-        if (!town.isBlank()) {
+        if(!region.isBlank()) {
+            dtpFiltered = dtpEntities.stream().filter(DtpEntity -> DtpEntity.getLocation().getRegion().equals(region)).collect(Collectors.toList());
+        } else if (!town.isBlank()) {
             dtpFiltered = dtpEntities.stream().filter(DtpEntity -> DtpEntity.getLocation().getTown().equals(town)).collect(Collectors.toList());
         } else if (!district.isBlank()) {
             dtpFiltered = dtpEntities.stream().filter(DtpEntity -> DtpEntity.getLocation().getDistrict().equals(district)).collect(Collectors.toList());

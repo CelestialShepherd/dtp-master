@@ -39,7 +39,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="location_id" type="uuid">
-                <constraints foreignKeyName="fk_location_id" nullable="false" references="location(id)"/>
+                <constraints foreignKeyName="fk_location_id" nullable="true" references="location(id)"/>
             </column>
             <column name="time_of_dtp" type="timestamp">
                 <constraints nullable="false"/>

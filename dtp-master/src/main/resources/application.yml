@@ -1,14 +1,11 @@
-server:
-  port: 8401
-
 spring:
+  datasource:
+    url: "jdbc:postgresql://ec2-63-32-7-190.eu-west-1.compute.amazonaws.com:5432/dde6jufj8p42a5"
+    username: zgtgyehrztoyve
+    password: f7cf19c10c93ead653adffaf7a402844f0aea4ac2e4b9def70afcdc477fe7af2
   liquibase:
     change-log: "classpath:db-migrations/changelog.xml"
     user: postgres
-    password: 1234
-  datasource:
-    url: "jdbc:postgresql://localhost:5432/postgres?currentSchema=dtp"
-    username: postgres
     password: 1234
 
 external:

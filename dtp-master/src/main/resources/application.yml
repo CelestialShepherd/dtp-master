@@ -14,4 +14,4 @@ spring:
 external:
   driver-service:
     host: localhost
-    port: 4210
+    port: 5432

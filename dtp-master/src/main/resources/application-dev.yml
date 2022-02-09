@@ -1,0 +1,14 @@
+spring:
+  liquibase:
+    change-log: "classpath:db-migrations/changelog.xml"
+    user: nckyohizefmake
+    password: 1d0b6f1e365dfdb7dee1bf906f0f126d9c3162469972d20f706b7ed399d428da
+  datasource:
+    url: "jdbc:postgresql://ec2-34-255-225-151.eu-west-1.compute.amazonaws.com:5432/desnejug92pt7"
+    username: nckyohizefmake
+    password: 1d0b6f1e365dfdb7dee1bf906f0f126d9c3162469972d20f706b7ed399d428da
+
+external:
+  driver-service:
+    host: localhost
+    port: 5432
